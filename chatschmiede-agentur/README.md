@@ -19,7 +19,7 @@ Einfach `index.html` im Browser öffnen, um die Seite anzusehen. Alle Firmen-, K
 
 Im Ordner `logo/` liegen die Markenassets:
 
-- `mark.svg` – das Icon allein (Blitz/Funke-Motiv in Blau-Grün-Verlauf auf dunkler Kachel), frei skalierbar, z. B. als Favicon oder App-Icon nutzbar.
+- `mark.svg` – das Icon allein (Amboss-Motiv in Blau-Grün-Verlauf auf dunkler Kachel), frei skalierbar, z. B. als Favicon oder App-Icon nutzbar.
 - `logo-lockup-dark.png` / `logo-lockup-light.png` – Icon + Schriftzug "ChatSchmiede" (Sora) für dunkle bzw. helle Hintergründe, z. B. für Dokumente oder Social-Media-Profile.
 - `logo-mark-512.png` – Rasterexport des Icons in 512×512px.
 - `favicon.ico` – Multi-Size-Favicon (16/32/48px) für Browser-Tabs.
