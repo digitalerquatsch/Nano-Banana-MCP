@@ -10,7 +10,7 @@ Was wir bauen:
 
 In fünf Schritten live: Funke → Schmieden → Härten → Zünden → Pflegen.
 
-Der Einstieg beginnt bei 590 € einmalig + 100 €/Monat Betreuung. Das Erstgespräch ist unverbindlich und kostenlos.
+Der Einstieg beginnt bei 200 € einmalig + 100 €/Monat Betreuung. Das Erstgespräch ist unverbindlich und kostenlos.
 
 Lohnt sich ein KI-Assistent für Ihr Unternehmen? Lassen Sie es uns in 30 Minuten gemeinsam herausfinden. Schreiben Sie mir gerne eine Nachricht oder eine E-Mail an hallo@chatschmiede.de.
 
