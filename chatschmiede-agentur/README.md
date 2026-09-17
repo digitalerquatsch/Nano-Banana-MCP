@@ -29,3 +29,17 @@ Im Ordner `logo/` liegen die Markenassets:
 - `social-card.png` (1200×630) – Vorschaubild für Link-Previews (Open Graph / Twitter Card).
 
 Auf der Website selbst wird das Icon direkt als Inline-SVG eingebunden (scharf bei jeder Auflösung), der Schriftzug läuft live in der Sora-Schriftart mit. `index.html` verlinkt zusätzlich `favicon.ico`, die Apple-Touch-Icon- und die Social-Card-Datei im Kopfbereich.
+
+## SEO / Google-Auffindbarkeit
+
+`index.html` enthält bereits die technische Grundausstattung, damit Google die Seite sauber lesen und anzeigen kann:
+
+- Aussagekräftiger `<title>` und `<meta name="description">` mit Kernbegriffen ("KI-Chatbot-Agentur")
+- `og:*` / `twitter:card`-Tags für gute Link-Vorschauen (nutzen `social-card.png`)
+- `<link rel="canonical">` gegen doppelten Content
+- JSON-LD-Strukturdaten (`ProfessionalService`) für Rich-Snippets in der Google-Suche
+- `robots.txt` und `sitemap.xml` im Projekt-Root
+
+**Vor dem Live-Gang ersetzen:** `www.chatschmiede.de` ist ein Platzhalter – vor Veröffentlichung in `index.html` (canonical, JSON-LD, og:image/og:url), `robots.txt` und `sitemap.xml` durch die echte Domain ersetzen.
+
+Das allein reicht aber nicht, um bei Google *gefunden* zu werden – das ist nur die technische Basis. Was zusätzlich nötig ist: Domain bei der Google Search Console anmelden und Sitemap einreichen, ein Google-Unternehmensprofil (Google Maps/Local) anlegen und pflegen, Inhalte mit den Suchbegriffen der Zielgruppe ergänzen (z. B. eigene Seiten/Blogartikel zu "KI-Chatbot für [Branche]"), sowie Backlinks von anderen Websites (Verzeichnisse, Partner, Presse) aufbauen. SEO wirkt erfahrungsgemäß erst nach einigen Wochen bis Monaten; für sofortige Sichtbarkeit eignet sich ergänzend Google Ads.
