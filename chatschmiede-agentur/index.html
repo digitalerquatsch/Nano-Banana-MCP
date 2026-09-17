@@ -1,0 +1,510 @@
+<title>ChatSchmiede</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Public+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f1e4;
+    --surface:#eee4cd;
+    --surface-2:#e3d5b4;
+    --ink:#251d10;
+    --ink-soft:#6b5c41;
+    --accent:#c1571c;
+    --accent-ink:#fff8ef;
+    --accent-2:#8a6414;
+    --line:#d9caa2;
+    --shadow: 0 1px 0 rgba(37,29,16,.06);
+    --radius: 14px;
+    --font-display:'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body:'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono:'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#161109;
+      --surface:#201810;
+      --surface-2:#2b2013;
+      --ink:#f3e9d6;
+      --ink-soft:#b8a888;
+      --accent:#e2762c;
+      --accent-ink:#1a0f04;
+      --accent-2:#f0b23c;
+      --line:#3c2f1c;
+      --shadow: 0 1px 0 rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#161109;
+    --surface:#201810;
+    --surface-2:#2b2013;
+    --ink:#f3e9d6;
+    --ink-soft:#b8a888;
+    --accent:#e2762c;
+    --accent-ink:#1a0f04;
+    --accent-2:#f0b23c;
+    --line:#3c2f1c;
+    --shadow: 0 1px 0 rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.55;
+    padding-inline:0;
+  }
+  img{max-width:100%;}
+  a{color:inherit;}
+  h1,h2,h3{font-family:var(--font-display); text-wrap:balance; margin:0;}
+  .wrap{max-width:1180px; margin-inline:auto; padding-inline:clamp(18px,4vw,40px);}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+  }
+  section{padding-block: clamp(56px,9vw,110px);}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-weight:700; font-size:.95rem;
+    padding:13px 22px; border-radius:999px; text-decoration:none;
+    border:1px solid transparent; cursor:pointer; transition:transform .15s ease, background .15s ease;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--accent); color:var(--accent-ink);}
+  .btn-primary:hover{background:var(--accent-2);}
+  .btn-ghost{background:transparent; border-color:var(--line); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
+  .btn-sm{padding:9px 16px; font-size:.85rem;}
+
+  /* Header */
+  header.site{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:40;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding-block:16px; gap:16px;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:700; font-size:1.25rem; text-decoration:none; color:var(--ink);}
+  .logo .mark{
+    width:30px; height:30px; border-radius:8px; background:var(--accent);
+    display:grid; place-items:center; color:var(--accent-ink); flex:none;
+  }
+  .navlinks{display:flex; gap:28px; align-items:center; font-size:.92rem; font-weight:600;}
+  .navlinks a{text-decoration:none; color:var(--ink-soft);}
+  .navlinks a:hover{color:var(--accent);}
+  .navcta{display:flex; align-items:center; gap:14px;}
+  .navtoggle{display:none; background:none; border:1px solid var(--line); border-radius:8px; width:38px; height:38px; color:var(--ink);}
+
+  @media (max-width:760px){
+    .navlinks{display:none;}
+    .navtoggle{display:grid; place-items:center;}
+    .nav.open .navlinks{
+      display:flex; flex-direction:column; align-items:flex-start; gap:14px;
+      position:absolute; left:0; right:0; top:100%;
+      background:var(--bg); border-bottom:1px solid var(--line);
+      padding:18px clamp(18px,4vw,40px) 24px;
+    }
+  }
+
+  /* Hero */
+  .hero{padding-block: clamp(40px,7vw,72px) clamp(50px,8vw,90px);}
+  .hero-grid{display:grid; grid-template-columns: 1.05fr .95fr; gap:clamp(28px,5vw,64px); align-items:center;}
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{font-size:clamp(2.1rem, 4.6vw, 3.4rem); font-weight:700; letter-spacing:-.01em; margin-block:14px 18px;}
+  .hero h1 em{font-style:normal; color:var(--accent);}
+  .hero p.lead{font-size:1.08rem; color:var(--ink-soft); max-width:46ch; margin-bottom:28px;}
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+
+  /* Chat demo card */
+  .demo-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:20px;
+    padding:18px; box-shadow: var(--shadow);
+  }
+  .demo-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+  .demo-title{display:flex; align-items:center; gap:10px; font-weight:700; font-size:.95rem;}
+  .dot{width:9px; height:9px; border-radius:50%; background:var(--accent); flex:none;}
+  .demo-sub{font-family:var(--font-mono); font-size:.7rem; color:var(--ink-soft);}
+  .chat-window{
+    background:var(--bg); border:1px solid var(--line); border-radius:14px;
+    padding:16px; min-height:250px; display:flex; flex-direction:column; gap:10px;
+  }
+  .bubble{max-width:80%; padding:10px 14px; border-radius:14px; font-size:.9rem; line-height:1.4;}
+  .bubble.visitor{align-self:flex-end; background:var(--accent); color:var(--accent-ink); border-bottom-right-radius:4px;}
+  .bubble.bot{align-self:flex-start; background:var(--surface-2); color:var(--ink); border-bottom-left-radius:4px;}
+  .bubble.typing{display:flex; gap:4px; align-items:center; padding:12px 14px;}
+  .bubble.typing span{width:6px; height:6px; border-radius:50%; background:var(--ink-soft); display:inline-block; animation:blink 1.1s infinite ease-in-out;}
+  .bubble.typing span:nth-child(2){animation-delay:.15s;}
+  .bubble.typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes blink{0%,80%,100%{opacity:.25;} 40%{opacity:1;}}
+  .demo-foot{display:flex; align-items:center; justify-content:space-between; margin-top:14px; gap:12px;}
+  .demo-note{font-size:.76rem; color:var(--ink-soft);}
+
+  @media (prefers-reduced-motion: reduce){
+    .bubble.typing span{animation:none; opacity:.6;}
+  }
+
+  /* Capability bar */
+  .capbar{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--surface);}
+  .capbar .wrap{display:flex; flex-wrap:wrap; gap:28px; padding-block:22px; justify-content:space-between;}
+  .cap{display:flex; align-items:center; gap:10px; font-size:.86rem; font-weight:600; color:var(--ink-soft); flex:1 1 200px;}
+  .cap svg{flex:none; color:var(--accent);}
+
+  /* Section heads */
+  .section-head{max-width:640px; margin-bottom:clamp(30px,5vw,48px);}
+  .section-head h2{font-size:clamp(1.7rem,3.2vw,2.4rem); font-weight:700; margin-block:10px 12px;}
+  .section-head p{color:var(--ink-soft); font-size:1.02rem;}
+
+  /* Services */
+  .services-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  @media (max-width:980px){ .services-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .services-grid{grid-template-columns:1fr;} }
+  .service-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px; display:flex; flex-direction:column; gap:14px;
+  }
+  .service-icon{
+    width:42px; height:42px; border-radius:10px; background:var(--surface-2);
+    display:grid; place-items:center; color:var(--accent);
+  }
+  .service-card h3{font-size:1.08rem; font-weight:700;}
+  .service-card p{color:var(--ink-soft); font-size:.92rem; margin:0;}
+
+  /* Process */
+  .process-list{display:flex; flex-direction:column; border-top:1px solid var(--line);}
+  .process-item{
+    display:grid; grid-template-columns:64px 1fr 1.6fr; gap:22px; align-items:start;
+    padding-block:26px; border-bottom:1px solid var(--line);
+  }
+  @media (max-width:760px){ .process-item{grid-template-columns:44px 1fr;} .process-item .process-desc{grid-column:1 / -1; padding-left:0;} }
+  .process-num{font-family:var(--font-mono); color:var(--accent); font-weight:600; font-size:1.05rem;}
+  .process-name{font-family:var(--font-display); font-weight:700; font-size:1.2rem;}
+  .process-name span{display:block; font-family:var(--font-mono); font-size:.72rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); margin-top:4px;}
+  .process-desc{color:var(--ink-soft); font-size:.95rem;}
+
+  /* Pricing */
+  .pricing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:stretch;}
+  @media (max-width:900px){ .pricing-grid{grid-template-columns:1fr;} }
+  .price-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:18px;
+    padding:28px; display:flex; flex-direction:column; gap:18px;
+  }
+  .price-card.featured{border-color:var(--accent); position:relative; background:var(--surface-2);}
+  .price-badge{
+    position:absolute; top:-13px; left:24px; background:var(--accent); color:var(--accent-ink);
+    font-family:var(--font-mono); font-size:.68rem; font-weight:600; letter-spacing:.06em;
+    padding:5px 10px; border-radius:999px; text-transform:uppercase;
+  }
+  .price-name{font-weight:700; font-size:1.1rem;}
+  .price-value{font-family:var(--font-display); font-size:2rem; font-weight:700;}
+  .price-value small{font-family:var(--font-body); font-size:.85rem; font-weight:600; color:var(--ink-soft);}
+  .price-desc{color:var(--ink-soft); font-size:.88rem;}
+  .price-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; font-size:.9rem;}
+  .price-list li{display:flex; gap:10px; align-items:flex-start;}
+  .price-list svg{flex:none; color:var(--accent); margin-top:3px;}
+  .price-card .btn{margin-top:auto; justify-content:center;}
+
+  /* CTA */
+  .cta-band{
+    background:var(--surface); border:1px solid var(--line); border-radius:24px;
+    padding:clamp(32px,6vw,56px); display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between;
+  }
+  .cta-band h2{font-size:clamp(1.5rem,3vw,2.1rem);}
+  .cta-band p{color:var(--ink-soft); margin-top:8px; max-width:44ch;}
+  .cta-actions{display:flex; flex-direction:column; gap:8px; align-items:flex-start;}
+  .cta-mail{font-family:var(--font-mono); font-size:.82rem; color:var(--ink-soft);}
+
+  footer{border-top:1px solid var(--line); padding-block:36px; margin-top:20px;}
+  .foot-grid{display:flex; flex-wrap:wrap; gap:20px; align-items:center; justify-content:space-between;}
+  .foot-links{display:flex; gap:22px; font-size:.85rem; color:var(--ink-soft); flex-wrap:wrap;}
+  .foot-links a{text-decoration:none;}
+  .foot-links a:hover{color:var(--accent);}
+  .foot-note{font-size:.78rem; color:var(--ink-soft); margin-top:14px; font-family:var(--font-mono);}
+</style>
+
+<header class="site">
+  <div class="wrap nav" id="nav">
+    <a class="logo" href="#top">
+      <span class="mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 14h6l-2 8 10-13h-6l0-7z" fill="currentColor"/></svg>
+      </span>
+      ChatSchmiede
+    </a>
+    <nav class="navlinks">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#prozess">Prozess</a>
+      <a href="#preise">Preise</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <div class="navcta">
+      <a class="btn btn-primary btn-sm" href="mailto:hallo@chatschmiede.de?subject=Erstgespr%C3%A4ch%20anfragen">Beratung sichern</a>
+      <button class="navtoggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">KI-Chatbot-Agentur</p>
+        <h1>Wir schmieden <em>smarte Dialoge</em> für Ihr Unternehmen.</h1>
+        <p class="lead">ChatSchmiede entwickelt maßgeschneiderte KI-Chatbots für Kundenservice, Vertrieb und interne Teams – von der ersten Idee bis zum laufenden Betrieb. DSGVO-konform gehostet, betreut aus Deutschland.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="mailto:hallo@chatschmiede.de?subject=Erstgespr%C3%A4ch%20anfragen">Kostenloses Erstgespräch</a>
+          <a class="btn btn-ghost" href="#demo">Beispiel ansehen</a>
+        </div>
+      </div>
+
+      <div id="demo" class="demo-card">
+        <div class="demo-head">
+          <div class="demo-title"><span class="dot"></span> ChatSchmiede-Bot</div>
+          <span class="demo-sub">LIVE-BEISPIEL</span>
+        </div>
+        <div class="chat-window" id="chatWindow"></div>
+        <div class="demo-foot">
+          <span class="demo-note">Beispielhafter Verlauf für die fiktive „Rösterei Nordlicht"</span>
+          <button class="btn btn-ghost btn-sm" id="replayBtn" type="button">↻ Erneut abspielen</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="capbar">
+    <div class="wrap">
+      <div class="cap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4z"/></svg> DSGVO-konform, Hosting in der EU</div>
+      <div class="cap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> 24/7 im Einsatz</div>
+      <div class="cap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17V7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg> Anbindung an CRM & Helpdesk</div>
+      <div class="cap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg> Integration in 48h möglich</div>
+    </div>
+  </div>
+
+  <section id="leistungen">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Leistungen</p>
+        <h2>Ein Chatbot für jede Aufgabe im Unternehmen</h2>
+        <p>Wir bauen keine Standardbots von der Stange, sondern Assistenten, die auf Ihre Prozesse, Ihr Wissen und Ihren Tonfall trainiert sind.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3>Kundenservice-Bots</h3>
+          <p>Beantworten FAQs, prüfen Bestellstatus und eskalieren komplexe Fälle nahtlos an Ihr Team.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-7"/></svg></div>
+          <h3>Vertriebs- & Lead-Bots</h3>
+          <p>Qualifizieren Website-Besucher, beantworten Produktfragen und übergeben warme Leads direkt an den Vertrieb.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8.5c0-3-2.5-5.5-6-5.5S5 5.5 5 8.5c0 2 1 3.5 2.5 4.5L7 20l5-3 5 3-.5-7c1.5-1 2.5-2.5 2.5-4.5z"/></svg></div>
+          <h3>WhatsApp & Messenger</h3>
+          <p>Ein Bot, viele Kanäle: Website, WhatsApp, Instagram und Facebook Messenger aus einer Wissensbasis.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+          <h3>Interne Wissens-Bots</h3>
+          <p>Durchsuchen Handbücher, Wikis und Tickets – neue Mitarbeitende finden Antworten in Sekunden statt Stunden.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prozess">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Prozess</p>
+        <h2>Vom Funken zum fertigen Bot</h2>
+        <p>Fünf Schritte, ein Prinzip: erst formen, dann härten. Jeder Bot durchläuft dieselbe Werkstatt, bevor er live geht.</p>
+      </div>
+      <div class="process-list">
+        <div class="process-item">
+          <div class="process-num">01</div>
+          <div class="process-name">Funke<span>Analyse</span></div>
+          <div class="process-desc">Wir klären Ziele, Zielgruppe und Anwendungsfälle – und prüfen, welche Daten und Systeme der Bot später braucht.</div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">02</div>
+          <div class="process-name">Schmieden<span>Konzeption</span></div>
+          <div class="process-desc">Gesprächsleitfäden, Prompt-Design und Anbindung an Ihre Wissensquellen entstehen in enger Abstimmung mit Ihrem Team.</div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">03</div>
+          <div class="process-name">Härten<span>Testing</span></div>
+          <div class="process-desc">Belastungstests, Sicherheitsprüfung und Feinabstimmung an echten Gesprächsverläufen, bevor der Bot live geht.</div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">04</div>
+          <div class="process-name">Zünden<span>Launch</span></div>
+          <div class="process-desc">Integration in Website, Messenger oder App – inklusive Übergabelogik an Ihr menschliches Team.</div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">05</div>
+          <div class="process-name">Pflegen<span>Betrieb</span></div>
+          <div class="process-desc">Laufendes Monitoring, Optimierung anhand echter Gespräche und Support durch Ihr festes ChatSchmiede-Team.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="preise">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Preise</p>
+        <h2>Transparente Pakete, planbare Kosten</h2>
+        <p>Einmalige Einrichtung plus monatliche Betreuung. Alle Preise verstehen sich zzgl. MwSt. und als Richtwert – das genaue Angebot richtet sich nach Umfang und Systemanbindung.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-name">Starter</div>
+          <div class="price-value">1.490 € <small>einmalig</small></div>
+          <div class="price-desc">+ 149 €/Monat Betreuung</div>
+          <ul class="price-list">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> 1 Chatbot für Website</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> FAQ- & Wissensdatenbank</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> Monatlicher Auswertungsbericht</li>
+          </ul>
+          <a class="btn btn-ghost" href="mailto:hallo@chatschmiede.de?subject=Anfrage%20Paket%20Starter">Paket anfragen</a>
+        </div>
+        <div class="price-card featured">
+          <span class="price-badge">Beliebt</span>
+          <div class="price-name">Business</div>
+          <div class="price-value">4.900 € <small>einmalig</small></div>
+          <div class="price-desc">+ 399 €/Monat Betreuung</div>
+          <ul class="price-list">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> Mehrsprachiger Bot</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> CRM- & Helpdesk-Anbindung</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> WhatsApp & Messenger</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> Monatliche Feinabstimmung</li>
+          </ul>
+          <a class="btn btn-primary" href="mailto:hallo@chatschmiede.de?subject=Anfrage%20Paket%20Business">Paket anfragen</a>
+        </div>
+        <div class="price-card">
+          <div class="price-name">Enterprise</div>
+          <div class="price-value">Individuell</div>
+          <div class="price-desc">Angebot nach Umfang</div>
+          <ul class="price-list">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> Eigene Modelle & On-Premise-Option</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> Mehrere Bots & Abteilungen</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg> Dediziertes Betreuungsteam</li>
+          </ul>
+          <a class="btn btn-ghost" href="mailto:hallo@chatschmiede.de?subject=Anfrage%20Paket%20Enterprise">Gespräch vereinbaren</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <h2>Bereit, Ihren ersten Bot zu schmieden?</h2>
+          <p>In einem 30-minütigen Erstgespräch klären wir Anwendungsfall, Aufwand und realistischen Zeitplan – unverbindlich.</p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="mailto:hallo@chatschmiede.de?subject=Erstgespr%C3%A4ch%20anfragen">Termin per E-Mail anfragen</a>
+          <span class="cta-mail">hallo@chatschmiede.de</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a class="logo" href="#top">
+        <span class="mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2 4 14h6l-2 8 10-13h-6l0-7z" fill="currentColor"/></svg>
+        </span>
+        ChatSchmiede
+      </a>
+      <nav class="foot-links">
+        <a href="#leistungen">Leistungen</a>
+        <a href="#prozess">Prozess</a>
+        <a href="#preise">Preise</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+    </div>
+    <p class="foot-note">ChatSchmiede — Konzept-Landingpage für eine KI-Chatbot-Agentur. Alle Angaben beispielhaft.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('nav');
+  if(toggle && nav){
+    toggle.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.querySelectorAll('.navlinks a').forEach(function(a){
+      a.addEventListener('click', function(){ nav.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); });
+    });
+  }
+
+  var script = [
+    {who:'visitor', text:'Habt ihr auch entkoffeinierten Kaffee?'},
+    {who:'bot', text:'Ja! Wir haben 3 entkoffeinierte Sorten – möchtest du sie sehen oder direkt bestellen?'},
+    {who:'visitor', text:'Bestellen, bitte.'},
+    {who:'bot', text:'Alles klar, ich leite dich zur Bestellseite weiter. Soll ich dir vorher noch unsere Bestseller zeigen?'}
+  ];
+  var win = document.getElementById('chatWindow');
+  var replayBtn = document.getElementById('replayBtn');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var playing = false;
+
+  function renderStatic(){
+    win.innerHTML = '';
+    script.forEach(function(m){
+      var b = document.createElement('div');
+      b.className = 'bubble ' + m.who;
+      b.textContent = m.text;
+      win.appendChild(b);
+    });
+  }
+
+  function playSequence(){
+    if(playing) return;
+    playing = true;
+    win.innerHTML = '';
+    var i = 0;
+    function step(){
+      if(i >= script.length){ playing = false; return; }
+      var m = script[i];
+      var typing = document.createElement('div');
+      typing.className = 'bubble bot typing';
+      typing.innerHTML = '<span></span><span></span><span></span>';
+      if(m.who === 'bot'){ win.appendChild(typing); win.scrollTop = win.scrollHeight; }
+      setTimeout(function(){
+        if(m.who === 'bot' && typing.parentNode) win.removeChild(typing);
+        var b = document.createElement('div');
+        b.className = 'bubble ' + m.who;
+        b.textContent = m.text;
+        win.appendChild(b);
+        win.scrollTop = win.scrollHeight;
+        i++;
+        setTimeout(step, m.who === 'visitor' ? 500 : 650);
+      }, m.who === 'bot' ? 700 : 150);
+    }
+    step();
+  }
+
+  renderStatic();
+  if(replayBtn){
+    replayBtn.addEventListener('click', function(){
+      if(reduceMotion){ renderStatic(); return; }
+      playSequence();
+    });
+  }
+})();
+</script>
