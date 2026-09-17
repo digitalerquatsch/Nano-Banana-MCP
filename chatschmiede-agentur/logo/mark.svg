@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="cs-mark-grad" x1="14" y1="8" x2="48" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5b9dff"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="62" height="62" rx="16" fill="#12131c" stroke="rgba(255,255,255,0.08)"/>
+  <path d="M36 10 L18 34 L29 34 L25 54 L46 28 L34 28 Z" fill="url(#cs-mark-grad)"/>
+</svg>
